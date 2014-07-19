@@ -1,0 +1,84 @@
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+ 
+ 
+/**
+ * Solution 1
+ * time: O(n) space: O(n)
+ * need a queue to iterate
+ */
+public:
+    vector<vector<int> > levelOrderBottom(TreeNode *root) {
+        if(root)
+        {
+            q.push(root);
+            q.push(NULL);
+        }
+        while(!q.empty())
+        {
+            TreeNode *node=q.front();
+            q.pop();
+            if(node)
+            {
+                vec.push_back(node->val);
+                if(node->left)q.push(node->left);
+                if(node->right)q.push(node->right);
+            }
+            else
+            {
+                ret.push_back(vec);
+                if(!q.empty())
+                {
+                    q.push(NULL);
+                    vec.clear();
+                }
+            }
+        }
+        reverse(ret.begin(),ret.end());
+        return ret;
+    }
+private:
+    queue<TreeNode *> q;
+    vector<int> vec;
+    vector<vector<int> > ret;
+};
+
+
+/**
+ * Solution 2
+ * time: O(n) space: O(n)
+ * need a vector to iterate
+ */
+class Solution {
+public:
+    vector<vector<int> > levelOrderBottom(TreeNode *root) {
+        int lev=1,idx=0;
+        if(root)
+        {
+            q.push_back(make_pair(root,lev));
+        }
+        else return ret;
+        while(idx<q.size())
+        {
+            TreeNode *node=q[idx].first;
+            lev=q[idx].second;
+            ++idx;
+
+            if(node->left)q.push_back(make_pair(node->left,lev+1));
+            if(node->right)q.push_back(make_pair(node->right,lev+1));
+        }
+        ret.resize(lev);
+        for(int i=0;i<idx;++i)ret[lev-q[i].second].push_back(q[i].first->val);
+        return ret;
+    }
+private:
+    vector<pair<TreeNode*,int> > q;
+    vector<vector<int> > ret;
+};
