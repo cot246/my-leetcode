@@ -1,6 +1,6 @@
 /**
  *Solution 1: dp+滚动数组
- *time:O(n) space:O(n)
+ *time:O(n*m) space:O(n)
  *f[i][j]=f[i-1][j]+f[i][j-1]
  */
 class Solution {
